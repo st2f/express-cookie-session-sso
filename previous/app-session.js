@@ -1,9 +1,7 @@
 const path = require('path');
 const express = require('express');
 const session = require('express-session');
-const MongoStore = require('connect-mongo');
 const app = express();
-require('./database');
 
 process.env.TZ ="Europe/Paris"
 
@@ -11,19 +9,15 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({ 
+app.use(session({
     name: 'express-id',
     secret: 'truc',
     resave: false,
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
-        maxAge: 60 * 60 * 24 * 7 * 1000 // ms 7 days
-    },
-    store: MongoStore.create({
-        mongoUrl: process.env.MONGODB_URL_CONNECTION,
-        ttl: 60 * 60 * 24 * 7 // sec 7 days
-    })
+        maxAge: 1 * 60 * 60 * 1000 // 24 hours
+    }
 }));
 
 app.get('/', (req, res) => {
@@ -36,4 +30,4 @@ app.get('/', (req, res) => {
     res.render('index'); 
 })
 
-app.listen(3001);
+app.listen(3000);
