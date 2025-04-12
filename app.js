@@ -1,39 +1,18 @@
 const path = require('path');
 const express = require('express');
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
-const app = express();
 require('./database');
+const router = require('./routes');
+const app = express();
+
+exports.app = app;
+
+require('./config/session.config');
 
 process.env.TZ ="Europe/Paris"
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(router);
 
-app.use(session({ 
-    name: 'express-id',
-    secret: 'truc',
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-        httpOnly: true,
-        maxAge: 60 * 60 * 24 * 7 * 1000 // ms 7 days
-    },
-    store: MongoStore.create({
-        mongoUrl: process.env.MONGODB_URL_CONNECTION,
-        ttl: 60 * 60 * 24 * 7 // sec 7 days
-    })
-}));
-
-app.get('/', (req, res) => {
-    //console.log(req.session)
-    console.log(req.session.id)
-
-    req.session.views = req.session.views ? req.session.views + 1 : 1;
-    console.log(req.session.views)
-
-    res.render('index'); 
-})
-
-app.listen(3001);
+app.listen(3000); 
