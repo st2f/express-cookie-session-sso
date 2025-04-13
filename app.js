@@ -7,6 +7,7 @@ const app = express();
 exports.app = app;
 
 require('./config/session.config');
+require('./config/passport.config');
 
 process.env.TZ ="Europe/Paris"
 
@@ -17,4 +18,4 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(router);
 
-app.listen(3002); 
+app.listen(3000);
