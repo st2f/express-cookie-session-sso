@@ -1,5 +1,4 @@
-
-const { sessionNew, sessionCreate, sessionDelete } = require('../controllers/user.controller');
+const { sessionNew, sessionCreate, sessionDelete } = require('../controllers/auth.controller');
 const router = require('express').Router();
 
 router.get('/signing/form', sessionNew);

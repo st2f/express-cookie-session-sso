@@ -1,7 +1,18 @@
-exports.userNew = (req, res, next) => {
-    res.end();
+const { createUser } = require('../queries/user.queries');
+
+
+exports.userNew = (req, res, next) => {    
+    res.render('signup', { error: null });
 }
 
-exports.userCreate = (req, res, next) => {
-    res.end();
+exports.userCreate = async(req, res, next) => {
+    try {
+        const body = req.body;
+        const user = await createUser(body);
+        res.redirect('/');
+
+    } catch(e) {
+        console.log(e)
+        res.render('signup', { error: e.message });
+    }
 }
