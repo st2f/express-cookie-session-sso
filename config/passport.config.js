@@ -14,7 +14,7 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser(async (id, done) => {
     try {
         const user = await User.findById(id);
-        done(null, user);// now user is availablusere thru req.user
+        done(null, user);// now user is available thru req.user
     } catch(e) {
         done(e, null);
     }

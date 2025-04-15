@@ -8,7 +8,11 @@ const userSchema = schema({
         password: { type: String },
 
     },
-    username: String
+    username: String,
+    lastLogin: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 userSchema.statics.hashPassword = async(password) => {
@@ -23,6 +27,17 @@ userSchema.statics.hashPassword = async(password) => {
 userSchema.methods.comparePassword = function(password) {
     return bcrypt.compare(password, this.local.password);
 }
+
+
+// UserSchema.statics.login = function login(id, callback) {
+//     return this.findByIdAndUpdate(id, { $set : { 'last_login_date' : Date.now() }, { new : true }, callback);
+
+//     return User.findOneAndUpdate( 
+//         { 'local.email': user.local.email }, 
+//         { 'lastLogin' : Date.now() },
+//         { new: true }
+//     );
+//  }
 
 const User = mongoose.model('user', userSchema);
 

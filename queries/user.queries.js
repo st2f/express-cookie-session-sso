@@ -17,9 +17,22 @@ exports.createUser = async (body) => {
 }
 
 exports.findUserPerEmail = (email) => {
-  return User.findOne({ 'local.email': email }).exec();
+  return User.findOne({ 'local.email': email });
 }
 
 exports.findUserPerGoogleId = (googleId) => {
-  return User.findOne({ 'local.googleId': googleId }).exec();
+  return User.findOne({ 'local.googleId': googleId });
+}
+
+exports.updateLastLogin = (user) => {
+  try {
+    return User.findOneAndUpdate( 
+      { 'local.email': user.local.email }, 
+      { 'lastLogin' : Date.now() },
+      { new: true }
+    );
+  } catch(e) {
+    next(e);
+  }
+  
 }
