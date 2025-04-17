@@ -6,7 +6,7 @@ const userSchema = schema({
     local: {
         email: { type: String, required: true, unique: true },
         password: { type: String },
-
+        googleId: { type: String },
     },
     username: String,
     lastLogin: {
@@ -27,7 +27,6 @@ userSchema.statics.hashPassword = async(password) => {
 userSchema.methods.comparePassword = function(password) {
     return bcrypt.compare(password, this.local.password);
 }
-
 
 // UserSchema.statics.login = function login(id, callback) {
 //     return this.findByIdAndUpdate(id, { $set : { 'last_login_date' : Date.now() }, { new : true }, callback);

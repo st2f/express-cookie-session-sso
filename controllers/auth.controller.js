@@ -36,3 +36,18 @@ exports.sessionDelete = (req, res, next) => {
         res.redirect('/');
     });
 };
+
+// see https://developers.google.com/identity/protocols/oauth2/scopes#oauth2
+exports.googleAuth = (req, res, next) => {
+  passport.authenticate('google', {
+    scope:
+      'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
+  })(req, res, next);
+};
+
+exports.googleAuthCb = (req, res, next) => {
+  passport.authenticate('google', {
+    successRedirect: '/protected',
+    failureRedirect: '/',
+  })(req, res, next);
+};
